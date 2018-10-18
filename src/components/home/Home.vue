@@ -12,7 +12,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import EventBus from '@/event-bus';
+import EventBus from '@/helpers/event-bus';
 
 export default {
     name: 'Home',

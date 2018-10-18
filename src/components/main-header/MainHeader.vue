@@ -33,7 +33,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { routes } from '@/router';
-import EventBus from '@/event-bus';
+import EventBus from '@/helpers/event-bus';
 import AuthenticationService from '@/services/AuthenticationService';
 
 export default {

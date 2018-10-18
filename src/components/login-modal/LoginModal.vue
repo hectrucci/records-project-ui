@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import EventBus from '@/event-bus';
+import EventBus from '@/helpers/event-bus';
 import AuthenticationService from '@/services/AuthenticationService';
 import { HalfCircleSpinner } from 'epic-spinners';
 
