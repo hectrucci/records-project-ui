@@ -4,12 +4,14 @@
             <div class="input-group input-group-sm mb-3">
                 <input type="text"
                        v-model="username"
+                       :class="{ 'is-invalid': isUsernameInvalid }"
                        class="form-control"
                        placeholder="Username">
             </div>
             <div class="input-group input-group-sm mb-3">
                 <input type="password"
                        v-model="password"
+                       :class="{ 'is-invalid': isPasswordInvalid }"
                        class="form-control"
                        placeholder="Password"
                        @keyup.enter="signIn">
@@ -49,17 +51,34 @@ export default {
             isLoading: false,
             username: '',
             password: '',
+            enableInvalidIndicator: false,
         };
     },
     components: { HalfCircleSpinner },
+    computed: {
+        isUsernameInvalid() {
+            return this.enableInvalidIndicator && !this.username;
+        },
+        isPasswordInvalid() {
+            return this.enableInvalidIndicator && !this.password;
+        },
+    },
     methods: {
         clearModalInputs() {
             this.username = '';
             this.password = '';
             this.errorMessage = '';
+            this.enableInvalidIndicator = false;
         },
         signIn() {
             const user = { username: this.username, password: this.password };
+
+            // verify the inputs, if one of them is empty then the input invalid indicator should be enabled
+            if (!user.username || !user.password) {
+                this.enableInvalidIndicator = true;
+
+                return;
+            }
 
             this.isLoading = true;
             this.errorMessage = '';
@@ -95,5 +114,9 @@ export default {
         top: 50%;
         left: 50%;
         margin-left:-15px;
+    }
+
+    .is-invalid::placeholder {
+        color: #dc3545;
     }
 </style>

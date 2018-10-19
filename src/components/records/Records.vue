@@ -47,19 +47,20 @@
                 <div class="input-group input-group-sm mb-3">
                     <input type="text"
                            v-model="name"
+                           :class="{ 'is-invalid': isNameInvalid }"
                            class="form-control"
                            placeholder="Record Name">
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <input type="text"
                            v-model="favoriteColor"
+                           :class="{ 'is-invalid': isFavoriteColorInvalid }"
                            class="form-control"
                            placeholder="Favorite Color">
                 </div>
             </div>
             <b-btn class="mt-3"
                    variant="outline-primary"
-                   :disabled="!canSubmitNewRecord"
                    @click="createNewRecord">Create Record</b-btn>
             <b-btn class="mt-3"
                    variant="outline-danger"
@@ -87,6 +88,7 @@ export default {
             records: [],
             isLoading: false,
             name: '',
+            enableInvalidIndicator: false,
             favoriteColor: '',
         };
     },
@@ -97,8 +99,11 @@ export default {
         displayPagination() {
             return this.totalPages > 1 && !this.isLoading;
         },
-        canSubmitNewRecord() {
-            return this.name && this.favoriteColor;
+        isNameInvalid() {
+            return this.enableInvalidIndicator && !this.name;
+        },
+        isFavoriteColorInvalid() {
+            return this.enableInvalidIndicator && !this.favoriteColor;
         },
     },
     methods: {
@@ -132,6 +137,7 @@ export default {
         clearModalInputs() {
             this.name = '';
             this.favoriteColor = '';
+            this.enableInvalidIndicator = false;
         },
         openRecordModal() {
             this.clearModalInputs();
@@ -143,6 +149,13 @@ export default {
         },
         createNewRecord() {
             const record = { name: this.name, favoriteColor: this.favoriteColor };
+
+            // verify the inputs, if one of them is empty then the input invalid indicator should be enabled
+            if (!record.name || !record.favoriteColor) {
+                this.enableInvalidIndicator = true;
+
+                return;
+            }
 
             this.isLoading = true;
             this.hideRecordModal();
@@ -189,5 +202,9 @@ export default {
         top: 50%;
         left: 50%;
         margin-left:-15px;
+    }
+
+    .is-invalid::placeholder {
+        color: #dc3545;
     }
 </style>
