@@ -1,6 +1,9 @@
 <template>
     <div class="mt-5">
-        <h1 v-if="isAuthenticated">{{ `Welcome ${user.name}!`}}</h1>
+        <div v-if="isAuthenticated">
+            <h1>{{ `Welcome ${user.name}!`}}</h1>
+            <b-btn variant="outline-primary" :to="{ path: 'Records' }">Now you can go to see some records</b-btn>
+        </div>
         <div v-if="!isAuthenticated">
             <h1>Welcome Guest!</h1>
             <b-btn class="mt-3"
